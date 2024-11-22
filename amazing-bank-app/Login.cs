@@ -8,6 +8,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using amazing_bank_app.Network;
 
 namespace amazing_bank_app {
 	public partial class Login : Form {
@@ -21,15 +22,8 @@ namespace amazing_bank_app {
 			var login    = emailTextBox.Text;
 			var password = passwordTextBox.Text;
 
-			HttpClient http = new() {
-				BaseAddress = new Uri("http://localhost:/")
-			};
-
-
-			var res     = http.PostAsJsonAsync("/login/", new LoginJson { login = login, password = password }).Result;
+			Http.Post("/login/", new LoginJson { login = login, password = password }, out token);
 			
-			var account = res.Content.ReadFromJsonAsync<Token>().Result;
-			token        = account;
 			DialogResult = DialogResult.OK;
 			Close();
 		}

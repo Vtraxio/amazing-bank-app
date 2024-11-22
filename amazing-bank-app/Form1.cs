@@ -1,19 +1,13 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using amazing_bank_app.Network;
 
 namespace amazing_bank_app {
     public partial class Form1 : Form
     {
-        private readonly HttpClient _http;
-        private string token;
-
         public Form1()
         {
             InitializeComponent();
-            _http = new HttpClient
-            {
-                BaseAddress = new Uri("http://localhost:80"),
-            };
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -22,11 +16,9 @@ namespace amazing_bank_app {
             if (loginForm.ShowDialog() == DialogResult.OK)
             {
                 Show();
-                token = loginForm.token.token;
-                _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
+                Http.SetToken(loginForm.token.token);
 
-                var res = _http.GetAsync("/account/details").Result;
-                var data = res.Content.ReadFromJsonAsync<Account>().Result;
+                var res = Http.Get<Account>("/account/details", out var data);
 
                 number.Text = data?.accountNo.ToString();
                 amount.Text = data?.amount.ToString();
@@ -39,7 +31,7 @@ namespace amazing_bank_app {
         }
 
         private void button1_Click(object sender, EventArgs e) {
-			var transferWindow = new NewTransfer(token);
+			var transferWindow = new NewTransfer();
 
             transferWindow.ShowDialog();
         }
