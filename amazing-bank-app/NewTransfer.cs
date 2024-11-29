@@ -13,19 +13,22 @@ using amazing_bank_app.Network;
 
 namespace amazing_bank_app {
 	public partial class NewTransfer : Form {
+		public event EventHandler Transfer;
+
 		public NewTransfer() {
             InitializeComponent();
 		}
 
 		private void transferBtn_Click(object sender, EventArgs e) {
             var transfer = new Transfer {
-				amount = (int)amountNum.Value,
-				target = int.Parse(targetTxt.Text) * 100,
+				amount = (int)amountNum.Value * 100,
+				target = int.Parse(targetTxt.Text),
 			};
 
 			var res = Http.Post("/transfer", transfer);
 
 			MessageBox.Show(res.StatusCode.ToString());
+			Transfer.Invoke(this, e);
 		}
 	}
 }
