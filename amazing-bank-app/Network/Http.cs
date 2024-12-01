@@ -28,40 +28,37 @@ namespace amazing_bank_app.Network {
 		public static HttpResponseMessage Get<T>(string path, out T? outData) {
 			var res = HttpClient.GetAsync(path).Result;
 
-			if (!res.IsSuccessStatusCode) {
-				MessageBox.Show(res.Content.ReadAsStringAsync().Result, @"PHP Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			outData = !HandleHttpResponse(res) ? default : res.Content.ReadFromJsonAsync<T>().Result;
 
-				outData = default;
-				return res;
-			}
-
-			outData = res.Content.ReadFromJsonAsync<T>().Result;
-
-			return res;
+            return res;
 		}
 
 		public static HttpResponseMessage Post<T>(string path, T data) {
 			var res = HttpClient.PostAsJsonAsync(path, data).Result;
 
-			if (!res.IsSuccessStatusCode) {
-				MessageBox.Show(res.Content.ReadAsStringAsync().Result, @"PHP Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
+			HandleHttpResponse(res);
 
-			return res;
+            return res;
 		}
 
 		public static HttpResponseMessage Post<T, TU>(string path, T data, out TU? outData) {
 			var res = HttpClient.PostAsJsonAsync(path, data).Result;
 
-			if (!res.IsSuccessStatusCode) {
-				MessageBox.Show(res.Content.ReadAsStringAsync().Result, @"PHP Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			outData = !HandleHttpResponse(res) ? default : res.Content.ReadFromJsonAsync<TU>().Result;
 
-				outData = default;
-				return res;
+            return res;
+		}
+
+		private static bool HandleHttpResponse(HttpResponseMessage msg) {
+			var content = msg.Content.ReadAsStringAsync().Result;
+
+			if (!msg.IsSuccessStatusCode && content.Contains(".php")) {
+				var error = new PhpError(content);
+                error.ShowDialog();
+				return false;
 			}
 
-			outData = res.Content.ReadFromJsonAsync<TU>().Result;
-			return res;
+			return true;
 		}
 	}
 }
