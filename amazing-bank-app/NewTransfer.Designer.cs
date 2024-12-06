@@ -33,6 +33,8 @@
             label1 = new Label();
             label2 = new Label();
             transferBtn = new Button();
+            titleTxt = new TextBox();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)amountNum).BeginInit();
             SuspendLayout();
             // 
@@ -75,7 +77,7 @@
             // 
             // transferBtn
             // 
-            transferBtn.Location = new Point(12, 70);
+            transferBtn.Location = new Point(12, 99);
             transferBtn.Name = "transferBtn";
             transferBtn.Size = new Size(239, 23);
             transferBtn.TabIndex = 4;
@@ -83,11 +85,29 @@
             transferBtn.UseVisualStyleBackColor = true;
             transferBtn.Click += transferBtn_Click;
             // 
+            // titleTxt
+            // 
+            titleTxt.Location = new Point(131, 70);
+            titleTxt.Name = "titleTxt";
+            titleTxt.Size = new Size(120, 23);
+            titleTxt.TabIndex = 5;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 73);
+            label3.Name = "label3";
+            label3.Size = new Size(32, 15);
+            label3.TabIndex = 6;
+            label3.Text = "Tytuł";
+            // 
             // NewTransfer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(263, 105);
+            ClientSize = new Size(263, 134);
+            Controls.Add(label3);
+            Controls.Add(titleTxt);
             Controls.Add(transferBtn);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -107,5 +127,7 @@
         private Label label1;
         private Label label2;
         private Button transferBtn;
+        private TextBox titleTxt;
+        private Label label3;
     }
 }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using amazing_bank_app.Network;
+using amazing_bank_app.Network.Dto.Request;
 
 namespace amazing_bank_app {
 	public partial class NewTransfer : Form {
@@ -21,9 +22,10 @@ namespace amazing_bank_app {
 
 		private void transferBtn_Click(object sender, EventArgs e) {
             var transfer = new Transfer {
-				amount = (int)amountNum.Value * 100,
+				amount = (int)(amountNum.Value * 100),
 				target = int.Parse(targetTxt.Text),
-			};
+				title  = titleTxt.Text
+            };
 
 			var res = Http.Post("/transfer", transfer);
 

@@ -9,9 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using amazing_bank_app.Network;
+using amazing_bank_app.Network.Dto.Request;
+using amazing_bank_app.Network.Dto.Response;
 
-namespace amazing_bank_app {
-	public partial class Login : Form {
+namespace amazing_bank_app
+{
+    public partial class Login : Form {
 		public     Token  token;
 
 		public Login() {

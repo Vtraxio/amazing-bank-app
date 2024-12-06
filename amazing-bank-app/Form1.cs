@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using amazing_bank_app.Network;
+using amazing_bank_app.Network.Dto.Response;
 
 namespace amazing_bank_app {
 	public partial class Form1 : Form {
@@ -22,10 +23,9 @@ namespace amazing_bank_app {
 
 		private void button1_Click(object sender, EventArgs e) {
 			var transferWindow = new NewTransfer();
+			transferWindow.Transfer += (_, _) => GetData();
 
 			transferWindow.ShowDialog();
-
-			transferWindow.Transfer += (_, _) => GetData();
 		}
 
 		private void GetData() {
@@ -34,6 +34,12 @@ namespace amazing_bank_app {
 			number.Text = data?.accountNo.ToString();
 			amount.Text = data?.amount.ToString();
 			name.Text   = data?.name;
+		}
+
+		private void button2_Click(object sender, EventArgs e) {
+			var tranfers = new Transfers();
+
+			tranfers.ShowDialog();
 		}
 	}
 }
