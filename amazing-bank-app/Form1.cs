@@ -32,7 +32,7 @@ namespace amazing_bank_app {
 			Http.Get<Account>("/account/details", out var data);
 
 			number.Text = data?.accountNo.ToString();
-			amount.Text = data?.amount.ToString();
+			amount.Text = $"{data?.amount/100f}z³";
 			name.Text   = data?.name;
 		}
 
